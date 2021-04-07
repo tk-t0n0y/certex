@@ -1,6 +1,7 @@
 import certstream
 import argparse
 import sys
+import os
 
 BLUE='\033[94m'
 RED='\033[91m'
@@ -52,12 +53,14 @@ def identify(cert_domains):
     for dom in found:
         print(BLUE + "[+] "+ dom + CLEAR)
     if args.output:
-        with open(output, 'r') as f:
-            found.extend(f.read().splitlines())
-            found = list(set(found))
-            found.sort()
-            f.close()
+        if os.path.exists(output):
+            with open(output, 'r') as f:
+                found.extend(f.read().splitlines())
+                found = list(set(found))
+                found.sort()
+                f.close()
         with open(output, 'w') as f:
             f.writelines("%s\n" % line for line in found)
+            f.close()
 
 certstream.listen_for_events(process, url='wss://certstream.calidog.io/')
