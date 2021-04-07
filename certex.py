@@ -8,7 +8,7 @@ GREEN='\033[92m'
 YELLOW='\033[93m'
 CLEAR='\x1b[0m'
 
-print(BLUE + "Certex[1.1] by ARPSyndicate" + CLEAR)
+print(BLUE + "Certex[1.2] by ARPSyndicate" + CLEAR)
 print(YELLOW + "monitors certificate transparency logs" + CLEAR)
 
 if len(sys.argv)<2:
@@ -52,7 +52,12 @@ def identify(cert_domains):
     for dom in found:
         print(BLUE + "[+] "+ dom + CLEAR)
     if args.output:
-        with open(output, 'a') as f:
+        with open(output, 'r') as f:
+            found.extend(f.read().splitlines())
+            found = list(set(found))
+            found.sort()
+            f.close()
+        with open(output, 'w') as f:
             f.writelines("%s\n" % line for line in found)
 
 certstream.listen_for_events(process, url='wss://certstream.calidog.io/')
