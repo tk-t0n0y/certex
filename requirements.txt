@@ -1,1 +1,1 @@
-certstream
+certstream==1.10
