@@ -60,7 +60,7 @@ def identify(cert_domains):
                 found.sort()
                 f.close()
         with open(output, 'w') as f:
-            f.writelines("%s\n" % line for line in found)
+            f.writelines("%s\n" % line.lower() for line in found)
             f.close()
 
 certstream.listen_for_events(process, url='wss://certstream.calidog.io/')
